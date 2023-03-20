@@ -15,10 +15,10 @@ final class ListUserController extends AbstractController
     {
         return UserResource::collection(
             User::query()
-                ->with(['address', 'company'])
-                ->latest('updated_at')
-                ->paginate($request->query('per_page'))
-                ->appends($request->query())
+                ->with(['address', 'company']) // Eager loaded the Address and Company
+                ->latest('updated_at') // Always sort any latest update
+                ->paginate($request->query('per_page')) // Paginate by per_page query params
+                ->appends($request->query()) // Add any other parameters
         );
     }
 }

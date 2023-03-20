@@ -14,6 +14,9 @@ use Illuminate\Validation\UnauthorizedException;
 
 final class UserFollowService implements UserFollowServiceContract
 {
+    /**
+     * Inject the Authentication factory to get the authenticated/current User
+     */
     public function __construct(private readonly Factory $auth)
     {
     }
@@ -50,6 +53,10 @@ final class UserFollowService implements UserFollowServiceContract
         return $user;
     }
 
+    /**
+     * This will get the authenticated/current user
+     * Otherwise, throw an Unauthorized error exception
+     */
     private function getCurrentUser(): User
     {
         if ($this->auth->guard()->hasUser() === false) {
@@ -62,11 +69,18 @@ final class UserFollowService implements UserFollowServiceContract
         return $currentUser;
     }
 
+    /**
+     * This is to check if the authenticated/current user is following the $user
+     */
     private function isFollowing(User $user): bool
     {
         return $this->getCurrentUser()->followings->contains($user);
     }
 
+    /**
+     * Validate if the authenticated user matches the $user in the parameter
+     * We wanted to NOT allow the authenticated user and $user to follow or unfollow
+     */
     private function validateCurrentUser(User $user): void
     {
         if ($user->getAttribute('id') === $this->getCurrentUser()->getAttribute('id')) {

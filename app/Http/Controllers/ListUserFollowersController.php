@@ -18,8 +18,8 @@ final class ListUserFollowersController extends AbstractController
             $currentUser
                 ->followers()
                 ->with(['address', 'company'])
-                ->latest()
-                ->when($request->has('name'), $filterByName)
+                ->latest() // Always sort the latest follower
+                ->when($request->has('name'), $filterByName) // When ?name is provided in query params, use the FilterByName
                 ->paginate($request->query('per_page'))
                 ->appends($request->query())
         );

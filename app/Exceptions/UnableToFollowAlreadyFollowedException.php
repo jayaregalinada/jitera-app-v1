@@ -11,6 +11,6 @@ final class UnableToFollowAlreadyFollowedException extends HttpException
 {
     public static function new(): self
     {
-        return new self(Response::HTTP_FORBIDDEN, 'Unable to Follow Already Followed User');
+        return new self(Response::HTTP_FORBIDDEN, 'Unable to follow already followed user');
     }
 }

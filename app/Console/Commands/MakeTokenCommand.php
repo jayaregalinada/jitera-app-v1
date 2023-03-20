@@ -6,6 +6,9 @@ use App\Models\User;
 use Illuminate\Console\Command;
 use function sprintf;
 
+/**
+ * This command will generate token for you to use in request
+ */
 final class MakeTokenCommand extends Command
 {
     /**
@@ -36,6 +39,11 @@ final class MakeTokenCommand extends Command
         $this->output->success($user->createToken($token)->plainTextToken);
     }
 
+    /**
+     * Get the user by its argument `userId`
+     * If the `userId` is not provided, return any random User
+     * Otherwise, use the provided `userId`
+     */
     private function getUser(): User
     {
         return ($userId = $this->argument('userId')) === null

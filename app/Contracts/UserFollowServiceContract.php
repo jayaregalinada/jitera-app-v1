@@ -8,7 +8,13 @@ use App\Models\User;
 
 interface UserFollowServiceContract
 {
+    /**
+     * Follow the $user and return $user when successful
+     */
     public function follow(User $user): User;
 
+    /**
+     * Unfollow the $user and return $user when successful
+     */
     public function unFollow(User $user): User;
 }
