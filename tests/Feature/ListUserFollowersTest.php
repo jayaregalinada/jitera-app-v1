@@ -17,7 +17,7 @@ final class ListUserFollowersTest extends AbstractTestCase
 
     private User $currentUser;
 
-    public function providesQuery(): iterable
+    public static function providesQuery(): iterable
     {
         yield 'Show all followers' => [
             3,

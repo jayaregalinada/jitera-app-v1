@@ -15,7 +15,7 @@ final class UnfollowUserTest extends AbstractTestCase
 
     private User $currentUser;
 
-    public function providesUnfollowUser(): iterable
+    public static function providesUnfollowUser(): iterable
     {
         yield 'When normal user try to unfollow user' => [
             1,

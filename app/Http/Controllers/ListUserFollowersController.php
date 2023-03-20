@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Filters\FilterByName;
 use App\Http\Resources\UserResource;
 use Illuminate\Contracts\Support\Responsable;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 final class ListUserFollowersController extends AbstractController

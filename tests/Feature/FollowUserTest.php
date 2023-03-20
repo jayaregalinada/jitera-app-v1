@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature;
 
+use App\Models\User;
 use Closure;
 use Database\Factories\UserFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -14,45 +15,33 @@ final class FollowUserTest extends AbstractTestCase
 {
     use RefreshDatabase;
 
-    public function providesFollowUser(): iterable
+    private User $currentUser;
+
+    public static function providesFollowUser(): iterable
     {
-        yield 'When normal user try to follow user' => [
-            fn () => UserFactory::new()->createQuietly(),
-            1,
+        yield 'When user try to follow user' => [
+            2,
             201,
         ];
 
-        yield 'When normal user try to follow non-existing user' => [
-            fn () => UserFactory::new()->createQuietly(),
+        yield 'When user try to follow non-existing user' => [
             123123,
             404,
         ];
-    }
 
-    public function testFollowTheSameUser(): void
-    {
-        $user = UserFactory::new()->createQuietly();
-
-        $this
-            ->actingAs($user)
-            ->postJson(route('user.follow', ['user' => 1]))
-            ->assertStatus(201);
-
-        $this
-            ->actingAs($user)
-            ->postJson(route('user.follow', ['user' => 1]))
-            ->assertStatus(403);
+        yield 'When user try to follow already followed user' => [
+            1,
+            403,
+        ];
     }
 
     /**
-     * @param \Closure<\App\Models\User> $user
-     *
      * @dataProvider providesFollowUser
      */
-    public function testFollowUser(Closure $user, int $userId, int $statusCode): void
+    public function testFollowUser(int $userId, int $statusCode): void
     {
         $this
-            ->actingAs($user())
+            ->actingAs($this->currentUser)
             ->postJson(route('user.follow', ['user' => $userId]))
             ->assertStatus($statusCode);
     }
@@ -64,5 +53,8 @@ final class FollowUserTest extends AbstractTestCase
         UserFactory::new()
             ->count(20)
             ->createQuietly();
+
+        $this->currentUser = UserFactory::new()->createQuietly();
+        $this->currentUser->followings()->attach(1);
     }
 }

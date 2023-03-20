@@ -23,11 +23,13 @@ final class GetCurrentUserTest extends AbstractTestCase
             ->assertOk()
             ->assertJsonIsObject()
             ->assertJson([
-                'email' => $user->getAttribute('email'),
-                'id' => $user->getAttribute('id'),
-                'name' => $user->getAttribute('name'),
-                'phone' => $user->getAttribute('phone'),
-                'website' => $user->getAttribute('website'),
+                'data' => [
+                    'email' => $user->getAttribute('email'),
+                    'id' => $user->getAttribute('id'),
+                    'name' => $user->getAttribute('name'),
+                    'phone' => $user->getAttribute('phone'),
+                    'website' => $user->getAttribute('website'),
+                ],
             ]);
     }
 
